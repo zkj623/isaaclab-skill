@@ -15,6 +15,12 @@ EXPECTED_DIMS = {
     "flat_locomotion": (48, 12),
     "rough_locomotion": (235, 12),
     "object_pushing": (16, 3),
+    "rough_locomotion_jan2025": (236, 12),
+    "door_opening": (52, 12),
+    "interaction": (245, 12),
+    "arx5_rough_locomotion": (260, 18),
+    "arx5_internav": (76, 18),
+    "arx5_door_push": (56, 18),
 }
 
 
