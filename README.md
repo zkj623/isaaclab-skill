@@ -17,7 +17,7 @@ low-level controller. The package includes that file under `checkpoints/`.
 
 - Isaac Lab at upstream commit `43a3ce9af` (the source version from which the
   overlay was prepared)
-- The matching Isaac Sim runtime, NVIDIA GPU and driver, and RSL-RL dependencies
+- Isaac Sim 4.2.0, a compatible NVIDIA GPU and driver, and RSL-RL dependencies
 - Access to the Isaac Sim assets referenced by the environment configurations
 
 The source machine used an Isaac Sim 4.2 asset root on a local Nucleus server.
@@ -27,13 +27,31 @@ assets.
 
 ## Install into a fresh Isaac Lab checkout
 
+For a binary Isaac Sim 4.2.0 installation, follow the [installation guide for
+the pinned Isaac Lab version](https://github.com/isaac-sim/IsaacLab/blob/43a3ce9af/docs/source/setup/installation/binaries_installation.rst).
+From a directory where you want both repositories:
+
 ```bash
+git clone https://github.com/zkj623/isaaclab-skill.git
 git clone https://github.com/isaac-sim/IsaacLab.git
 git -C IsaacLab checkout 43a3ce9af
+cd IsaacLab
+ln -s /absolute/path/to/isaac-sim-4.2.0 _isaac_sim  # replace with your installation path
+./isaaclab.sh -c isaaclab
+conda activate isaaclab
+cd ..
 python isaaclab-skill/install.py verify
 python isaaclab-skill/install.py install IsaacLab --dry-run
 python isaaclab-skill/install.py install IsaacLab
+cd IsaacLab
+./isaaclab.sh -i rsl_rl
+cd ..
+python isaaclab-skill/verify_models.py
 ```
+
+If Isaac Sim was installed with pip, follow the pinned upstream pip installation
+guide instead of creating `_isaac_sim`. The conda environment must be active
+when installing dependencies and playing a skill.
 
 Place `isaaclab-skill` next to `IsaacLab`, or replace the paths above. The
 installer verifies the SHA-256 hash of every packaged file, checks the pinned
@@ -47,14 +65,14 @@ already match.
 From the parent directory of both repositories:
 
 ```bash
-python isaaclab-skill/run_skill.py flat_locomotion --isaaclab IsaacLab --num-envs 100
-python isaaclab-skill/run_skill.py rough_locomotion --isaaclab IsaacLab --num-envs 100
-python isaaclab-skill/run_skill.py object_pushing --isaaclab IsaacLab --num-envs 100
+python isaaclab-skill/run_skill.py flat_locomotion --isaaclab IsaacLab --num-envs 1
+python isaaclab-skill/run_skill.py rough_locomotion --isaaclab IsaacLab --num-envs 1
+python isaaclab-skill/run_skill.py object_pushing --isaaclab IsaacLab --num-envs 1
 ```
 
-Use `--headless` for a machine without a display. Start with `--num-envs 1` if
-GPU memory is limited. The wrapper supplies the exact task, run directory, and
-checkpoint name to `play.py`.
+Run the skills one at a time. Use `--headless` for a machine without a display;
+increase `--num-envs` after a one-environment run succeeds. The wrapper supplies
+the exact task, run directory, and checkpoint name to `play.py`.
 
 The original working object-pushing command is equivalent to:
 
@@ -84,8 +102,11 @@ files came from the local experiment runs listed in `manifest.json`.
 ## Validation
 
 Package hash and Python syntax checks passed, and the overlay installed into a
-clean checkout at the pinned commit with matching file hashes. GPU rollouts
-have not been verified from that installation. During preparation, the current
+clean checkout at the pinned commit with matching file hashes. All three
+checkpoints loaded on CPU with expected actor dimensions, and the low-level
+TorchScript policy produced a finite 12-action output. These checks do not
+exercise Isaac Sim or prove task success. GPU rollouts have not been verified
+from the clean installation. During preparation, the current
 host reported NVIDIA kernel module `580.159.03` but user-space NVML library
 `580.178.04`; `nvidia-smi` failed with `Driver/library version mismatch`. A
 separate launch attempt without the owner's original Python environment exited

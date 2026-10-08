@@ -5,6 +5,7 @@ from __future__ import annotations
 
 import argparse
 import json
+import os
 import subprocess
 from pathlib import Path
 
@@ -31,7 +32,10 @@ def main() -> None:
     if args.headless:
         command.append("--headless")
     print("Running:", " ".join(command), flush=True)
-    raise SystemExit(subprocess.call(command, cwd=root))
+    environment = os.environ.copy()
+    if environment.get("TERM") in (None, "dumb"):
+        environment["TERM"] = "xterm"
+    raise SystemExit(subprocess.call(command, cwd=root, env=environment))
 
 
 if __name__ == "__main__":
