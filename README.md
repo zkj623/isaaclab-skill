@@ -83,8 +83,11 @@ files came from the local experiment runs listed in `manifest.json`.
 
 ## Validation
 
-Package hash and Python syntax checks can run without Isaac Sim. A fresh
-checkout installation and GPU rollout are still required before claiming that
-the flat and rough policies reproduce on another machine. The source machine
-in this session did not expose a working NVIDIA driver, so GPU rollouts were
-not run while preparing this directory.
+Package hash and Python syntax checks passed, and the overlay installed into a
+clean checkout at the pinned commit with matching file hashes. GPU rollouts
+have not been verified from that installation. During preparation, the current
+host reported NVIDIA kernel module `580.159.03` but user-space NVML library
+`580.178.04`; `nvidia-smi` failed with `Driver/library version mismatch`. A
+separate launch attempt without the owner's original Python environment exited
+before simulation because `omni.isaac.lab` was unavailable. These environment
+failures do not establish whether the packaged policies reproduce successfully.
