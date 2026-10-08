@@ -6,7 +6,6 @@
 from omni.isaac.lab.utils import configclass
 
 from omni.isaac.lab_tasks.manager_based.locomotion.velocity.velocity_env_cfg import LocomotionVelocityRoughEnvCfg
-from omni.isaac.lab_tasks.manager_based.locomotion.velocity.position_env_cfg import LocomotionPositionRoughEnvCfg
 
 ##
 # Pre-defined configs
@@ -16,7 +15,6 @@ from omni.isaac.lab_assets.unitree import UNITREE_GO2_CFG  # isort: skip
 
 @configclass
 class UnitreeGo2RoughEnvCfg(LocomotionVelocityRoughEnvCfg):
-# class UnitreeGo2RoughEnvCfg(LocomotionPositionRoughEnvCfg):
     def __post_init__(self):
         # post init of parent
         super().__post_init__()

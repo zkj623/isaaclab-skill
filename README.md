@@ -6,9 +6,9 @@ copy of the complete Isaac Lab repository.
 
 | Skill | Isaac Lab task | Checkpoint | Status |
 | --- | --- | --- | --- |
-| Flat locomotion | `Isaac-Velocity-Flat-Unitree-Go2-Play-v0` | `model_299.pt` | Configuration and checkpoint packaged; runtime check pending |
-| Rough locomotion | `Isaac-Velocity-Rough-Unitree-Go2-Play-v0` | `model_7850.pt` | Configuration and checkpoint packaged; runtime check pending |
-| Object pushing | `Isaac-Object-Flat-Unitree-Go2-Play-v0` | `model_7000.pt` | Original local command confirmed by the project owner; fresh-install check pending |
+| Flat locomotion | `Isaac-Velocity-Flat-Unitree-Go2-Play-v0` | `model_299.pt` | Three GPU simulation steps passed on the source machine |
+| Rough locomotion | `Isaac-Velocity-Rough-Unitree-Go2-Play-v0` | `model_7850.pt` | Three GPU simulation steps passed on the source machine |
+| Object pushing | `Isaac-Object-Flat-Unitree-Go2-Play-v0` | `model_7000.pt` | Three GPU simulation steps passed on the source machine |
 
 The object-pushing task also uses the exported rough-locomotion policy as its
 low-level controller. The package includes that file under `checkpoints/`.
@@ -23,7 +23,9 @@ low-level controller. The package includes that file under `checkpoints/`.
 The source machine used an Isaac Sim 4.2 asset root on a local Nucleus server.
 Set up asset access on the destination machine before running the tasks. The
 overlay does not publish downloaded scenes, robot USD files, or local Nucleus
-assets.
+assets. If the default cloud asset server is inaccessible, pass its equivalent
+local root with `--asset-root`, for example
+`--asset-root omniverse://localhost/NVIDIA/Assets/Isaac/4.2`.
 
 ## Install into a fresh Isaac Lab checkout
 
@@ -72,7 +74,10 @@ python isaaclab-skill/run_skill.py object_pushing --isaaclab IsaacLab --num-envs
 
 Run the skills one at a time. Use `--headless` for a machine without a display;
 increase `--num-envs` after a one-environment run succeeds. The wrapper supplies
-the exact task, run directory, and checkpoint name to `play.py`.
+the exact task, run directory, and checkpoint name to `play.py`. Add
+`--follow-camera` to track the first robot in the GUI viewport; it has no effect
+in headless mode. Use `--asset-root` when your Isaac Sim assets are hosted at a
+different URI.
 
 The original working object-pushing command is equivalent to:
 
@@ -104,11 +109,12 @@ files came from the local experiment runs listed in `manifest.json`.
 Package hash and Python syntax checks passed, and the overlay installed into a
 clean checkout at the pinned commit with matching file hashes. All three
 checkpoints loaded on CPU with expected actor dimensions, and the low-level
-TorchScript policy produced a finite 12-action output. These checks do not
-exercise Isaac Sim or prove task success. GPU rollouts have not been verified
-from the clean installation. During preparation, the current
-host reported NVIDIA kernel module `580.159.03` but user-space NVML library
-`580.178.04`; `nvidia-smi` failed with `Driver/library version mismatch`. A
-separate launch attempt without the owner's original Python environment exited
-before simulation because `omni.isaac.lab` was unavailable. These environment
-failures do not establish whether the packaged policies reproduce successfully.
+TorchScript policy produced a finite 12-action output. After rebooting to fix
+a temporary NVIDIA driver mismatch, all three tasks loaded their checkpoints
+and completed three GPU simulation steps in the `isaaclab-python` conda
+environment. The updated overlay was then installed into a fresh checkout of
+the pinned commit, where all three tasks again loaded and completed three GPU
+steps using a local Nucleus asset root. These short runs verify startup and
+stepping, not policy quality or a full episode. GUI camera following has not
+been tested, and another machine still needs its own Isaac Sim installation,
+dependencies, and asset access.

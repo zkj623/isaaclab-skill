@@ -23,6 +23,8 @@ parser.add_argument(
 )
 parser.add_argument("--num_envs", type=int, default=None, help="Number of environments to simulate.")
 parser.add_argument("--task", type=str, default=None, help="Name of the task.")
+parser.add_argument("--follow-camera", action="store_true", help="Keep the viewport camera on the first robot.")
+parser.add_argument("--asset-root", type=str, default=None, help="Isaac Sim asset root, such as a local Nucleus URI.")
 # append RSL-RL cli arguments
 cli_args.add_rsl_rl_args(parser)
 # append AppLauncher cli args
@@ -35,6 +37,10 @@ if args_cli.video:
 # launch omniverse app
 app_launcher = AppLauncher(args_cli)
 simulation_app = app_launcher.app
+if args_cli.asset_root:
+    import carb
+
+    carb.settings.get_settings().set("/persistent/isaac/asset_root/cloud", args_cli.asset_root.rstrip("/"))
 
 """Rest everything follows."""
 
@@ -626,7 +632,8 @@ def main():
             actions = policy(obs)
 
             # door open
-            actions[:, 16:18] = 0
+            if actions.shape[1] >= 18:
+                actions[:, 16:18] = 0
             # print(actions)
 
             # ===== 冻结机械臂关节 =====
@@ -635,6 +642,12 @@ def main():
 
             # env stepping
             obs, rewards, dones, infos = env.step(actions)
+            if args_cli.follow_camera and not args_cli.headless:
+                robot_pos = robot.data.root_pos_w[0].tolist()
+                env.unwrapped.sim.set_camera_view(
+                    eye=(robot_pos[0] - 3.0, robot_pos[1] - 3.0, robot_pos[2] + 2.0),
+                    target=(robot_pos[0], robot_pos[1], robot_pos[2] + 0.4),
+                )
 
             # 每10步输出一次诊断信息
             # if timestep % 10 == 0:

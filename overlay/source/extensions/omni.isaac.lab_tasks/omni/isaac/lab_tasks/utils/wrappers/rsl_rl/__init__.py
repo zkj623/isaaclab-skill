@@ -17,12 +17,3 @@ from .vecenv_wrapper import (
     OriginalLowEnvWrapper,
     OriginalEnvWrapper
 )
-
-# Go2+ARX5 专用包装器
-from .go2arx5_wrappers import (
-    Go2ARX5RoughTerrainWrapper,
-    Go2ARX5InternavWrapper,
-    Go2ARX5DoorPushWrapper,
-    Go2ARX5OriginalHighEnvWrapper,
-    Go2ARX5OriginalLowEnvWrapper,
-)
