@@ -1,0 +1,90 @@
+# IsaacLab Skill: Unitree Go2
+
+This repository packages three Unitree Go2 policies and the matching Isaac Lab
+source changes. It is an overlay for a pinned Isaac Lab checkout, rather than a
+copy of the complete Isaac Lab repository.
+
+| Skill | Isaac Lab task | Checkpoint | Status |
+| --- | --- | --- | --- |
+| Flat locomotion | `Isaac-Velocity-Flat-Unitree-Go2-Play-v0` | `model_299.pt` | Configuration and checkpoint packaged; runtime check pending |
+| Rough locomotion | `Isaac-Velocity-Rough-Unitree-Go2-Play-v0` | `model_7850.pt` | Configuration and checkpoint packaged; runtime check pending |
+| Object pushing | `Isaac-Object-Flat-Unitree-Go2-Play-v0` | `model_7000.pt` | Original local command confirmed by the project owner; fresh-install check pending |
+
+The object-pushing task also uses the exported rough-locomotion policy as its
+low-level controller. The package includes that file under `checkpoints/`.
+
+## Requirements
+
+- Isaac Lab at upstream commit `43a3ce9af` (the source version from which the
+  overlay was prepared)
+- The matching Isaac Sim runtime, NVIDIA GPU and driver, and RSL-RL dependencies
+- Access to the Isaac Sim assets referenced by the environment configurations
+
+The source machine used an Isaac Sim 4.2 asset root on a local Nucleus server.
+Set up asset access on the destination machine before running the tasks. The
+overlay does not publish downloaded scenes, robot USD files, or local Nucleus
+assets.
+
+## Install into a fresh Isaac Lab checkout
+
+```bash
+git clone https://github.com/isaac-sim/IsaacLab.git
+git -C IsaacLab checkout 43a3ce9af
+python isaaclab-skill/install.py verify
+python isaaclab-skill/install.py install IsaacLab --dry-run
+python isaaclab-skill/install.py install IsaacLab
+```
+
+Place `isaaclab-skill` next to `IsaacLab`, or replace the paths above. The
+installer verifies the SHA-256 hash of every packaged file, checks the pinned
+Isaac Lab revision, and refuses to overwrite locally changed files. The
+`overlay/` tree maps directly to paths in Isaac Lab; the `checkpoints/` tree
+maps to its `logs/` directory. Re-running the installer is safe when files
+already match.
+
+## Play a skill
+
+From the parent directory of both repositories:
+
+```bash
+python isaaclab-skill/run_skill.py flat_locomotion --isaaclab IsaacLab --num-envs 100
+python isaaclab-skill/run_skill.py rough_locomotion --isaaclab IsaacLab --num-envs 100
+python isaaclab-skill/run_skill.py object_pushing --isaaclab IsaacLab --num-envs 100
+```
+
+Use `--headless` for a machine without a display. Start with `--num-envs 1` if
+GPU memory is limited. The wrapper supplies the exact task, run directory, and
+checkpoint name to `play.py`.
+
+The original working object-pushing command is equivalent to:
+
+```bash
+cd IsaacLab
+./isaaclab.sh -p source/standalone/workflows/rsl_rl/play.py \
+  --task Isaac-Object-Flat-Unitree-Go2-Play-v0 \
+  --num_envs 100 --load_run 2024-12-14_13-42-28 --checkpoint model_7000.pt
+```
+
+## Package contents and provenance
+
+- `overlay/`: selected Python source files from the local Isaac Lab checkout.
+  The Go2 task registry is reduced to the three skills above. The low-level
+  policy path in `object_env_cfg.py` is resolved from the Isaac Lab checkout
+  instead of a user's home directory.
+- `checkpoints/`: one selected training checkpoint for each skill and the
+  exported low-level policy required by object pushing. Training logs, other
+  checkpoints, CARLA/Matterport assets, and unrelated experiments are omitted.
+- `manifest.json`: exact source revision, task names, run names, and SHA-256
+  hashes for package verification.
+
+Copied Isaac Lab source retains its copyright headers. The upstream
+BSD-3-Clause license is included in [LICENSE](LICENSE). The trained model
+files came from the local experiment runs listed in `manifest.json`.
+
+## Validation
+
+Package hash and Python syntax checks can run without Isaac Sim. A fresh
+checkout installation and GPU rollout are still required before claiming that
+the flat and rough policies reproduce on another machine. The source machine
+in this session did not expose a working NVIDIA driver, so GPU rollouts were
+not run while preparing this directory.

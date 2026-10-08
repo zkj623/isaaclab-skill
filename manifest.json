@@ -1,0 +1,59 @@
+{
+  "upstream_repository": "https://github.com/isaac-sim/IsaacLab",
+  "upstream_commit": "43a3ce9af",
+  "skills": {
+    "flat_locomotion": {
+      "task": "Isaac-Velocity-Flat-Unitree-Go2-Play-v0",
+      "experiment": "unitree_go2_flat",
+      "run": "2025-02-18_09-32-03",
+      "checkpoint": "model_299.pt"
+    },
+    "rough_locomotion": {
+      "task": "Isaac-Velocity-Rough-Unitree-Go2-Play-v0",
+      "experiment": "unitree_go2_rough",
+      "run": "walking_stable_100",
+      "checkpoint": "model_7850.pt"
+    },
+    "object_pushing": {
+      "task": "Isaac-Object-Flat-Unitree-Go2-Play-v0",
+      "experiment": "unitree_go2_pushing",
+      "run": "2024-12-14_13-42-28",
+      "checkpoint": "model_7000.pt"
+    }
+  },
+  "files": {
+    "overlay/source/extensions/omni.isaac.lab/omni/isaac/lab/assets/rigid_object/rigid_object.py": "5d4649087118ba88bcde245a2a702090d4fe1708a0513e59a6ca3e226f3d97cd",
+    "overlay/source/extensions/omni.isaac.lab/omni/isaac/lab/envs/mdp/commands/commands_cfg.py": "473d3d94a8c73348d0fd8180a6197be159bd60759d5d9b67945dd1fd36ebf337",
+    "overlay/source/extensions/omni.isaac.lab/omni/isaac/lab/envs/mdp/events.py": "fe0b0e58782876fd360d57ca874e62f77eacf8e6cca84a9223fafc5e6cba68dd",
+    "overlay/source/extensions/omni.isaac.lab/omni/isaac/lab/envs/mdp/observations.py": "61a7338c65e5b03a0b322fed9a22c4027d84bbbbb0bd79984935f9c711639d09",
+    "overlay/source/extensions/omni.isaac.lab/omni/isaac/lab/envs/mdp/rewards.py": "3b457f538d0f614116e870005b723e1a86bcc6e84fc80a0f5635f46d1fd63961",
+    "overlay/source/extensions/omni.isaac.lab/omni/isaac/lab/envs/mdp/terminations.py": "d669fa4dd4a24bdfcafcbbd4f551cfa9007f620826780e881c2cd5785d50622d",
+    "overlay/source/extensions/omni.isaac.lab/omni/isaac/lab/terrains/config/rough.py": "baceff19b91a8b1d0aba66656b3d9340f9928cbfa699193816cdd2fa60638ea7",
+    "overlay/source/extensions/omni.isaac.lab/omni/isaac/lab/terrains/height_field/__init__.py": "0b7f710cd885481806e1c1af3fadd6741a06821143ee023bb9ab8ab084763638",
+    "overlay/source/extensions/omni.isaac.lab/omni/isaac/lab/terrains/height_field/hf_terrains.py": "1ba81173b595096031fff4c9d5a43351a4bade984a951b3d3ae682e5e6412a6a",
+    "overlay/source/extensions/omni.isaac.lab/omni/isaac/lab/terrains/height_field/hf_terrains_cfg.py": "9af573e3015c04164f8ddafc789bfcd73d3b2e197bdf48cd6c3c8662f0013fef",
+    "overlay/source/extensions/omni.isaac.lab/omni/isaac/lab/terrains/height_field/utils.py": "29169b6fed4a1e595e8f373f734052a4fc390bc9cd371829604b646c459dc086",
+    "overlay/source/extensions/omni.isaac.lab/omni/isaac/lab/terrains/trimesh/__init__.py": "969fcb8de790bcf1c8b3d11c7f8cfd5a9433477fb6b6043e3c5a984852796fef",
+    "overlay/source/extensions/omni.isaac.lab/omni/isaac/lab/terrains/trimesh/mesh_terrains.py": "c4a23c701ca88398f5a46a9ec260d2c01a3549fec2ad1fdcd86803d9ea3d9d4d",
+    "overlay/source/extensions/omni.isaac.lab/omni/isaac/lab/terrains/trimesh/mesh_terrains_cfg.py": "7506a5139e2f19c815d2422280a8db90395e4115ece26362768f4ae34d4aef5d",
+    "overlay/source/extensions/omni.isaac.lab/omni/isaac/lab/terrains/trimesh/utils.py": "3058a4828f8c112951d2aa3e88bedf5a01dfdb204ca72b11943581d3b1e6ff14",
+    "overlay/source/extensions/omni.isaac.lab_tasks/omni/isaac/lab_tasks/manager_based/locomotion/velocity/config/go2/__init__.py": "b59778cd202c36eec86358e2c75bca9f4180043f279a5f23e5a437f06289fb51",
+    "overlay/source/extensions/omni.isaac.lab_tasks/omni/isaac/lab_tasks/manager_based/locomotion/velocity/config/go2/agents/rsl_rl_ppo_cfg.py": "a2a54869636af56d24646de77624cd423bcb21e1980f390d40b74b036fed49d6",
+    "overlay/source/extensions/omni.isaac.lab_tasks/omni/isaac/lab_tasks/manager_based/locomotion/velocity/config/go2/pushing_env_cfg.py": "a284c4efd5dcee5b662aec5e11b559f19e732cef8d4f67cb0bd1fb629ace48c7",
+    "overlay/source/extensions/omni.isaac.lab_tasks/omni/isaac/lab_tasks/manager_based/locomotion/velocity/config/go2/rough_env_cfg.py": "7f9a8af15e617f1de19c5b0b07e14a83b89413d046fd097e1e99582d55e69516",
+    "overlay/source/extensions/omni.isaac.lab_tasks/omni/isaac/lab_tasks/manager_based/locomotion/velocity/mdp/__init__.py": "9f752f83c4d6a6246c3f882fb2e18221c265e231d60d61828e40a520f7e82968",
+    "overlay/source/extensions/omni.isaac.lab_tasks/omni/isaac/lab_tasks/manager_based/locomotion/velocity/mdp/curriculums.py": "8528940f2764d306387e9c8132ff721362f580727319ee2ca23c957cd809b4dd",
+    "overlay/source/extensions/omni.isaac.lab_tasks/omni/isaac/lab_tasks/manager_based/locomotion/velocity/mdp/observations.py": "25efc4a0451841291285451954ef0bed44b657a856d8441b78b1eabd6ac4143a",
+    "overlay/source/extensions/omni.isaac.lab_tasks/omni/isaac/lab_tasks/manager_based/locomotion/velocity/mdp/pre_trained_policy_action.py": "c4c29e8df945a84c5e79de7a71af6afb20e217a9f90ce60c9a6e3e01d55c5e08",
+    "overlay/source/extensions/omni.isaac.lab_tasks/omni/isaac/lab_tasks/manager_based/locomotion/velocity/mdp/rewards.py": "c62b8b46b177e2956b00661aa847a60f6864f35deaceea05f77767b0748ff7a8",
+    "overlay/source/extensions/omni.isaac.lab_tasks/omni/isaac/lab_tasks/manager_based/locomotion/velocity/mdp/terminations.py": "8a7646908206b1dfc0e25bf533517bc7b55dc905872ccb3106d8421f0315938a",
+    "overlay/source/extensions/omni.isaac.lab_tasks/omni/isaac/lab_tasks/manager_based/locomotion/velocity/object_env_cfg.py": "19db93db7e118d577eef0d209a31b5c3b2daf1e9e0686a8f43e46a018cb3513f",
+    "overlay/source/extensions/omni.isaac.lab_tasks/omni/isaac/lab_tasks/utils/wrappers/rsl_rl/__init__.py": "4c0b8e8296b3f521f420b0127ea2af0519e8ce052bb9743cf79343ed6e21b071",
+    "overlay/source/extensions/omni.isaac.lab_tasks/omni/isaac/lab_tasks/utils/wrappers/rsl_rl/vecenv_wrapper.py": "a0a6e001aba0ed7e1b1b9297d3fe8910dbe767b2ee9baee4e84ad6b53ddd6738",
+    "overlay/source/standalone/workflows/rsl_rl/play.py": "bdc78151cf5961126bf5a9dfbeee6e5c2ec83a203c8b98ee92f9d5a3337c37c4",
+    "checkpoints/logs/rsl_rl/unitree_go2_flat/2025-02-18_09-32-03/model_299.pt": "64044fce0bb83aed697f5b547e86cd8d676a8975ed9ddb3fce8bc88d87ae21bc",
+    "checkpoints/logs/rsl_rl/unitree_go2_pushing/2024-12-14_13-42-28/model_7000.pt": "3184df1e81f0d43cf34f95bca331f017fb4d35d2ae3cce7b1f376ef286ac9623",
+    "checkpoints/logs/rsl_rl/unitree_go2_rough/walking_stable_100/exported/policy.pt": "a042af517fa44728c164e339ae9fac31804f3504cde5cd7daa6e3ae2a79c51fa",
+    "checkpoints/logs/rsl_rl/unitree_go2_rough/walking_stable_100/model_7850.pt": "d435f46dcf2d614cad28e21e033b34d6036d079924e1746530a36f2fba2315bd"
+  }
+}
